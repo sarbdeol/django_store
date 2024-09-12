@@ -3,46 +3,122 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
-# from .models import Product, Category, Image
+from .models import Product, Category
+from django.core.paginator import Paginator
 # from .forms import ProductForm
 import requests
 from django.utils.text import slugify
+from django.contrib.auth.decorators import login_required
+from .forms import ProductForm
+@login_required
+def user_profile(request):
+    # Get the products created by the logged-in user
+    products = Product.objects.filter(user=request.user)
+    return render(request, 'profile.html', {'products': products})
+@login_required
+def add_product(request):
+    if request.method == 'POST':
+        print("Form submitted")
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            print("Form is valid")
+            product = form.save(commit=False)
+            selected_category = request.POST.get('category')
+            custom_category = request.POST.get('custom_category')
 
+            print(f"Selected Category: {selected_category}, Custom Category: {custom_category}")
+
+            if selected_category == 'Other' and custom_category:
+                print("Saving custom category")
+                category, created = Category.objects.get_or_create(name=custom_category)
+                product.category = category
+            else:
+                print("Saving selected category")
+                product.category = Category.objects.get(name=selected_category)
+
+            product.user = request.user
+            product.save()
+            print("Product saved")
+            return redirect('user_profile')
+        else:
+            print("Form errors: ", form.errors)
+    else:
+        form = ProductForm()
+
+    return render(request, 'add_product.html', {'form': form})
 
 def main(request):
 	return render(request, 'main.html')
-def admin_page(request):
-	return render(request, 'admin_product.html')
+
 def index(request):
-	try:
-		# Fetch products from the API
-		response = requests.get('https://walluk.s3.eu-north-1.amazonaws.com/themes/themes%26plugins.json')
-		data = response.json()
+    try:
+        # Fetch products from the external API
+        response = requests.get('https://walluk.s3.eu-north-1.amazonaws.com/themes/themes%26plugins.json')
+        api_data = response.json()
 
-		# Create a slug and set the first image for each product
-		for product in data:
-			product['slug'] = slugify(product['title'])
-			product['sub_category'] = product.get('sub-category', 'N/A')
-			product['tags'] = product.get('tags', [])
-			product['first_image'] = product['images'][0] if product.get('images') and len(product['images']) > 0 else None
+        # Process API data: create slug and set the first image for each product
+        for product in api_data:
+            product['slug'] = slugify(product['title'])
+            product['sub_category'] = product.get('sub-category', 'N/A')
+            product['tags'] = product.get('tags', [])
+            product['first_image'] = product['images'][0] if product.get('images') and len(product['images']) > 0 else None
 
-	except Exception as e:
-		print(f"Error fetching data: {e}")
-		data = []
+    except Exception as e:
+        print(f"Error fetching API data: {e}")
+        api_data = []
 
-	# Get category filter from query parameters
-	category_filter = request.GET.get('category', None)
+    # Fetch user-created products and categories from the database
+    user_products = Product.objects.all()
+    user_categories = Category.objects.all()
 
-	# Filter products by category if a category is selected
-	if category_filter:
-		filtered_products = [product for product in data if product['category'] == category_filter]
-	else:
-		filtered_products = data
+    # Prepare user products in a similar format to API data
+    user_data = [
+        {
+            'title': product.title,
+            'slug': product.slug,
+            'description': product.description,
+            'category': product.category.name,
+            'sub_category': getattr(product, 'sub_category', 'N/A'),
+            'tags': product.tags,
+            'first_image': product.image.url if product.image else None,
+            'images': [img.image.url for img in product.images.all()] if hasattr(product, 'images') else []
+        }
+        for product in user_products
+    ]
 
-	# Get unique categories for filtering
-	categories = list(set(item['category'] for item in data))
+    # Combine both API and user-created data
+    combined_products = api_data + user_data
 
-	return render(request, 'index.html', {'categories': categories, 'products': filtered_products, 'selected_category': category_filter})
+    # Get category filter from query parameters
+    category_filter = request.GET.get('category', None)
+
+    # Filter combined products by category if a category is selected
+    if category_filter:
+        filtered_products = [product for product in combined_products if product['category'] == category_filter]
+    else:
+        filtered_products = combined_products
+
+    # Combine categories from both API and user-created categories
+    api_categories = list(set(item['category'] for item in api_data))
+    user_categories_list = list(set(cat.name for cat in user_categories))
+
+    # Merge both API and user-created categories
+    combined_categories = list(set(api_categories + user_categories_list))
+
+    # PAGINATION: Create a paginator object for 30 products per page
+    paginator = Paginator(filtered_products, 30)  # Show 30 products per page
+
+    # Get the current page number from the request
+    page_number = request.GET.get('page')
+
+    # Get the products for the current page
+    page_products = paginator.get_page(page_number)
+
+    return render(request, 'index.html', {
+        'categories': combined_categories,
+        'products': page_products,
+        'selected_category': category_filter
+    })
 # Product details
 def product_page(request, slug):
 	try:
@@ -68,7 +144,7 @@ def user_login(request):
 		user = authenticate(request, username=username, password=password)
 		if user is not None:
 			login(request, user)
-			return redirect('admin_page')  # Replace 'main' with your homepage
+			return redirect('add_product')  # Replace 'main' with your homepage
 		else:
 			messages.error(request, 'Invalid credentials')
 	return render(request, 'login.html')
