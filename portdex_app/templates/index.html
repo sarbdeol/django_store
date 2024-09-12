@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Body Styling */
+        body {
+            background-color: #F0F0F0; /* Light grey background */
+            font-family: 'Roboto', sans-serif;
+            color: #444; /* Light black for general text */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: #F0F0F0; /* Light grey */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 2px solid #CCCCCC;
+        }
+
+        .navbar .nav-link {
+            color: #0b71d9; /* Bold blue for navbar text */
+            font-weight: bold;
+        }
+
+        /* Logo Styling */
+        .navbar-brand {
+            font-size: 24px; /* Logo font size */
+            font-weight: bold; /* Make the logo text bold */
+        }
+
+        .logo-part1 {
+            color: #0b71d9; /* Blue for 'Wall' */
+        }
+
+        .logo-part2 {
+            color: #000; /* Black for 'uk' */
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            background-color: transparent; /* Transparent background for the sidebar */
+            padding: 15px;
+            height: 100vh; /* Full height */
+            position: fixed; /* Fixed sidebar */
+            top: 56px; /* Below the navbar */
+            left: 0;
+            width: 250px; /* Fixed width */
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none; /* Hide sidebar on small screens */
+            }
+        }
+
+        .sidebar h3 {
+            color: #0b71d9; /* Dark blue for sidebar title */
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+            display: flex; /* Flexbox for alignment */
+            align-items: center; /* Center items vertically */
+        }
+
+        .sidebar ul li i {
+            margin-right: 10px; /* Space between icon and text */
+            color: #393c40; /* Icon color */
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #393c40; /* Dark blue for category links */
+            font-weight: 700;
+        }
+
+        .sidebar ul li a:hover {
+            color: #0d0d0d;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 270px; /* Space for the sidebar */
+            padding: 20px;
+            padding-top: 80px; /* Space for the fixed navbar */
+            overflow-y: auto;
+            height: calc(100vh - 80px); /* Full height minus navbar height */
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+            }
+        }
+
+        .main-content h3 {
+            color: #0b71d9;
+        }
+
+        /* Section Styling */
+        .section {
+            background-color: transparent; /* Transparent background for sections */
+            margin-bottom: 20px; /* Margin between sections */
+        }
+
+        /* Product Card Styling */
+        .card {
+            border: none; /* Remove card outline */
+            background-color: #FFFFFF; /* Light white background for cards */
+            margin-bottom: 20px; /* Margin between cards */
+            border-radius: 8px; /* Rounded corners */
+        }
+
+        .card-title {
+            color: #0b71d9; /* Blue for product names */
+        }
+
+        .card-text {
+            font-size: 14px;
+            color: #444; /* Light black for card text */
+        }
+
+        /* Button Customization */
+        .btn-primary {
+            background-color: #0b71d9; /* Blue background */
+            border-color: #0b71d9;
+            border-radius: 20px; /* Rounded corners */
+            color: white; /* White text color */
+        }
+
+        .btn-primary:hover {
+            background-color: #0b71d9; /* Darker blue on hover */
+            border-color: #0b71d9;
+        }
+
+        /* Hover Effects */
+        .card:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s;
+        }
+
+        .small-image {
+            width: 100%; /* Set the desired width for the image */
+            height: 300px; /* Maintain aspect ratio */
+        }
+    </style>
+    <title>Theme Store</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <span class="logo-part1">Portdex</span><span class="logo-part2">AI</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                </ul>
+                <!-- <ul>
+                    {% for category in categories %}
+                        <li class="list-group-item category-item" onclick=""><i class="fas fa-code"></i> {{ category }}</li>
+                    {% endfor %}
+                </ul> -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <!-- Sidebar for larger devices (hidden on mobile) -->
+    <div class="sidebar d-none d-md-block">
+        <div class="card mb-4" style="background-color: #FFFFFF; border: none;">
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                    <h5 class="card-title">Welcome, {{ user.username }}</h5>
+                    <p class="card-text">You have access to all features of our service.</p>
+                    <a href="{% url 'logout' %}" class="btn btn-secondary">Log out</a>
+                {% else %}
+                    <h5 class="card-title">Access Features</h5>
+                    <p class="card-text">Log in or sign up to access all features of our service.</p>
+                    <div class="d-grid gap-2">
+                        <!-- Sign Up button -->
+                        <a href="{% url 'register' %}" class="btn btn-primary">Sign up</a>
+                        <!-- Log In button -->
+                        <a href="{% url 'login' %}" class="btn btn-secondary">Log in</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <h3>Categories</h3>
+        <ul class="list-group">
+            {% for category in categories %}
+                <li class="list-group-item category-item"><i class="fas fa-code"></i> {{ category }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Display login/signup and categories after navbar on mobile devices -->
+    <div class="d-block d-md-none">
+        <!-- Login/Sign Up section for mobile -->
+        <div class="card mb-4" style="background-color: #FFFFFF; border: none;">
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                    <h5 class="card-title">Welcome, {{ user.username }}</h5>
+                    <p class="card-text">You have access to all features of our service.</p>
+                    <a href="{% url 'logout' %}" class="btn btn-secondary w-100">Log out</a>
+                {% else %}
+                    <h5 class="card-title">Access Features</h5>
+                    <p class="card-text">Log in or sign up to access all features of our service.</p>
+                    <div class="d-grid gap-2">
+                        <!-- Sign Up button -->
+                        <a href="{% url 'register' %}" class="btn btn-primary w-100">Sign up</a>
+                        <!-- Log In button -->
+                        <a href="{% url 'login' %}" class="btn btn-secondary w-100">Log in</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Categories section for mobile, displayed horizontally -->
+        <div class="container">
+            <h3>Categories</h3>
+            <div class="d-flex flex-wrap">
+                {% for category in categories %}
+                    <div class="p-2">
+                        <!-- Add a link with the category as a query parameter -->
+                        <a href="?category={{ category }}" class="btn btn-outline-primary {% if selected_category == category %} active {% endif %}">
+                            {{ category }}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+    </div>
+
+
+    <div class="main-content">
+        <div class="section">
+            <h3>Products</h3>
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-4 product-card" data-category="{{ product.category }}">
+                        <div class="card">
+                            <div class="card">
+                                {% for image in product.images %}
+                                    {% if forloop.first %}
+                                        <img src="{{ image }}" alt="{{ product.title }} logo" class="card-img-top logo-image small-image">
+                                    {% endif %}
+                                {% endfor %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.title }}</h5>
+                                    <p><strong>Author:</strong> {{ product.author }}</p>
+                                    <p><strong>Price:</strong> {{ product.price }}</p>
+                                    <p><strong>Category:</strong> {{ product.category }}</p>
+                                    <p><strong>Subcategory:</strong> {{ product.sub_category }}</p>
+                                    <p><strong>Tags:</strong> {{ product.tags|join:", " }}</p>
+                                    <a href="{% url 'product_page' product.slug %}" class="btn btn-primary">View Product</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

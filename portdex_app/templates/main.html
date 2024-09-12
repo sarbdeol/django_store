@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>portdex.ai</title>
+    <style>
+        body {
+            background-color: #a6c9ee; /* Blue background color */
+            color: white; /* White text color for better contrast */
+            font-family: 'Roboto', sans-serif; /* Use Roboto font */
+        }
+        .navbar {
+            background-color: #F0F0F0; /* Light grey */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 2px solid #CCCCCC;
+        }
+
+        .navbar .nav-link {
+            color: #0b71d9; /* Bold blue for navbar text */
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .navbar .nav-link:hover {
+            color: #064785; /* Darker blue on hover */
+        }
+
+        /* Logo Styling */
+        .navbar-brand {
+            font-size: 24px; /* Logo font size */
+            font-weight: bold; /* Make the logo text bold */
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: rgba(177, 205, 235, 0.9); /* Semi-transparent blue background for hero section */
+            color: #fff;
+        }
+
+        .brand-image {
+            max-width: 200px; /* Set a max width for the brand image */
+            height: auto; /* Maintain aspect ratio */
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-top: 15px;
+        }
+
+        /* Service Card Styling */
+        .service-card {
+            margin-bottom: 30px;
+        }
+
+        .service-card .card {
+            background-color: rgba(255, 255, 255, 0.9); /* White background for cards */
+            color: #333;
+            border: none;
+            transition: transform 0.3s;
+        }
+
+        .service-card .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card .card-body {
+            text-align: center;
+        }
+
+        .service-card h5 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            font-size: 16px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0b71d9;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+
+            .service-card h5 {
+                font-size: 20px;
+            }
+
+            .service-card p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <span class="logo-part1">Portdex</span><span class="logo-part2">AI</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <h1 class="display-4">Welcome to portdex.ai</h1>
+            <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?q=80&w=2048&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Portdex AI Logo" class="brand-image mb-4">
+            <p class="lead">Your go-to source for crypto knowledge and innovative tech solutions.</p>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Our Services</h2>
+        <div class="row">
+            <div class="col-md-4 service-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Crypto Education</h5>
+                        <p class="card-text">We provide comprehensive courses and resources to help you understand cryptocurrency and blockchain technology.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 service-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Market Analysis</h5>
+                        <p class="card-text">Stay ahead of the curve with our in-depth market analysis and insights into the latest trends in the crypto space.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 service-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Investment Strategies</h5>
+                        <p class="card-text">Learn effective investment strategies tailored to the dynamic world of cryptocurrencies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h2 class="text-center mb-4">Why Choose Us?</h2>
+                <p class="text-center">At portdex.ai, we are committed to providing the best resources and support for individuals looking to navigate the world of cryptocurrency. Our team of experts is dedicated to empowering you with the knowledge and tools you need to succeed.</p>
+                <p class="text-center mt-4">Portdex.ai powered by blockchain technology and AI - A peer-to-peer marketplace for freelance software developers and designers to sell products and services.</p>
+                <p class="text-center mt-4">Portdex.ai is a community-governed platform for designers and developers to monetize their digital creations, including logos, themes, plugins, and libraries.</p>
+                <p class="text-center mt-4">Blockchain technology will give developers and designers the tools to ensure ownership traceability, secure transfers, and transparent transactions for digital assets like logos, themes, plugins, and libraries.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center mt-5">
+        <div class="container">
+            <p>&copy; 2024 portdex.ai. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
