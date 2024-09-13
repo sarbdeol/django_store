@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import Product, Category
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # from .forms import ProductForm
 import requests
 from django.utils.text import slugify
@@ -134,6 +134,45 @@ def product_page(request, slug):
 		product = None
 
 	return render(request, 'product.html', {'product': product})
+
+
+def freelancer_list(request):
+    # Get category filter from the request
+    category_filter = request.GET.get('category', None)
+    
+    try:
+        # Fetch data from the API
+        response = requests.get('https://walluk.s3.eu-north-1.amazonaws.com/freelancers/freelancer_data.json')  # Replace <API_ENDPOINT> with the actual API URL
+        freelancers = response.json()
+
+        # Filter freelancers by category if a category is selected
+        if category_filter:
+            freelancers = [f for f in freelancers if f['category'] == category_filter]
+
+    except Exception as e:
+        freelancers = []
+
+    # Paginate the freelancers (30 per page)
+    paginator = Paginator(freelancers, 100)
+    page_number = request.GET.get('page', 1)
+
+    try:
+        page_obj = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        # If the page is not an integer, deliver the first page.
+        page_obj = paginator.get_page(1)
+    except EmptyPage:
+        # If the page is out of range (e.g., 9999), deliver the last page of results.
+        page_obj = paginator.get_page(paginator.num_pages)
+
+    # Get all unique categories for filtering
+    categories = list(set(f['category'] for f in freelancers))
+
+    return render(request, 'freelancers.html', {
+        'page_obj': page_obj, 
+        'categories': categories, 
+        'selected_category': category_filter
+    })
 
 
 # User Login View
