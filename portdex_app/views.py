@@ -89,21 +89,28 @@ def index(request):
     # Combine both API and user-created data
     combined_products = api_data + user_data
 
-    # Get category filter from query parameters
+    # Get category and subcategory filters from query parameters
     category_filter = request.GET.get('category', None)
+    subcategory_filter = request.GET.get('subcategory', None)
 
-    # Filter combined products by category if a category is selected
-    if category_filter:
+    # Filter combined products by category and subcategory if selected
+    if subcategory_filter:
+        filtered_products = [product for product in combined_products if product['sub_category'] == subcategory_filter]
+    elif category_filter:
         filtered_products = [product for product in combined_products if product['category'] == category_filter]
     else:
         filtered_products = combined_products
 
-    # Combine categories from both API and user-created categories
+    # Combine categories and subcategories from both API and user-created categories
     api_categories = list(set(item['category'] for item in api_data))
-    user_categories_list = list(set(cat.name for cat in user_categories))
+    api_subcategories = list(set(item['sub_category'] for item in api_data))
 
-    # Merge both API and user-created categories
+    user_categories_list = list(set(cat.name for cat in user_categories))
+    user_subcategories_list = list(set(prod.sub_category for prod in user_products))
+
+    # Merge both API and user-created categories and subcategories
     combined_categories = list(set(api_categories + user_categories_list))
+    combined_subcategories = list(set(api_subcategories + user_subcategories_list))
 
     # PAGINATION: Create a paginator object for 30 products per page
     paginator = Paginator(filtered_products, 30)  # Show 30 products per page
@@ -116,9 +123,12 @@ def index(request):
 
     return render(request, 'index.html', {
         'categories': combined_categories,
+        'subcategories': combined_subcategories,
         'products': page_products,
-        'selected_category': category_filter
+        'selected_category': category_filter,
+        'selected_subcategory': subcategory_filter
     })
+
 # Product details
 def product_page(request, slug):
 	try:

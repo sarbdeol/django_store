@@ -232,16 +232,40 @@
             </div>
         </div>
 
-        <h3 class="mt-4">Categories</h3>
-        <div class="d-flex flex-wrap">
-            {% for category in categories %}
-                <a href="?category={{ category }}" 
-                class="btn btn-outline-primary me-2 mb-2 {% if selected_category == category %} active {% endif %}"
-                style="min-width: 120px; text-align: center;">
-                    {{ category }}
-                </a>
-            {% endfor %}
+        <h3 class="mt-4">Filters</h3>
+        <div class="container">
+            <!-- Form for category and subcategory selection -->
+            <form method="get" class="row g-3 align-items-center mb-4">
+                
+                <!-- Categories Dropdown -->
+                <div class="col-md-6">
+                    <label for="categoryDropdown" class="form-label">Category</label>
+                    <select name="category" id="categoryDropdown" class="form-select" onchange="this.form.submit()">
+                        <option value="">Select Category</option>
+                        {% for category in categories %}
+                            <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>
+                                {{ category }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Subcategories Dropdown -->
+                <div class="col-md-6">
+                    <label for="subcategoryDropdown" class="form-label">Subcategory</label>
+                    <select name="subcategory" id="subcategoryDropdown" class="form-select" onchange="this.form.submit()">
+                        <option value="">Select Subcategory</option>
+                        {% for subcategory in subcategories %}
+                            <option value="{{ subcategory }}" {% if selected_subcategory == subcategory %}selected{% endif %}>
+                                {{ subcategory }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </form>
         </div>
+
 
        
     </div>
@@ -271,16 +295,27 @@
         <!-- Categories section for mobile, displayed horizontally -->
         <div class="container">
             <h3>Categories</h3>
-            <div class="d-flex flex-wrap">
-                {% for category in categories %}
-                    <div class="p-2">
-                        <!-- Add a link with the category as a query parameter -->
-                        <a href="?category={{ category }}" class="btn btn-outline-primary {% if selected_category == category %} active {% endif %}">
+            <form method="get" class="d-flex align-items-center mb-3">
+                <!-- Categories Dropdown -->
+                <select name="category" class="form-select me-2" onchange="this.form.submit()">
+                    <option value="">Select Category</option>
+                    {% for category in categories %}
+                        <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>
                             {{ category }}
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
+                        </option>
+                    {% endfor %}
+                </select>
+        
+                <!-- Subcategories Dropdown -->
+                <select name="subcategory" class="form-select" onchange="this.form.submit()">
+                    <option value="">Select Subcategory</option>
+                    {% for subcategory in subcategories %}
+                        <option value="{{ subcategory }}" {% if selected_subcategory == subcategory %}selected{% endif %}>
+                            {{ subcategory }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
         </div>
         
     </div>
@@ -294,11 +329,9 @@
                     <div class="col-md-4 product-card" data-category="{{ product.category }}">
                         <div class="card">
                             <div class="card">
-                                {% for image in product.images %}
-                                    {% if forloop.first %}
-                                        <img src="{{ image }}" alt="{{ product.title }} logo" class="card-img-top logo-image small-image">
-                                    {% endif %}
-                                {% endfor %}
+                                {% if product.first_image %}
+                                    <img src="{{ product.first_image }}" alt="{{ product.title }} logo" class="card-img-top logo-image small-image">
+                                {% endif %}
                                 <div class="card-body">
                                     <h5 class="card-title">{{ product.title }}</h5>
                                     <p><strong>Author:</strong> {{ product.author }}</p>
@@ -312,10 +345,9 @@
                         </div>
                     </div>
                 {% endfor %}
-                
             </div>
-            
         </div>
+    
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
         
