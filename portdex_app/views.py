@@ -48,7 +48,11 @@ def add_product(request):
     return render(request, 'add_product.html', {'form': form})
 
 def main(request):
-	return render(request, 'main.html')
+	return render(request, 'main2.html')
+def about(request):
+	return render(request, 'about.html')
+def service(request):
+	return render(request, 'service.html')
 
 def index(request):
     try:

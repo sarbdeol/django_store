@@ -1,40 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Freelancers</title>
+{% extends 'base.html' %}
+
+{% block title %}Freelancers{% endblock %}
+
+{% block styles %}
     <style>
+    
         body {
             background-color: #F0F0F0; /* Light grey background */
             font-family: 'Roboto', sans-serif;
-             /*color: #444; /* Light black for general text */
-            margin: 0;
+                /*color: #444; /* Light black for general text */
+            margin-top: 5rem !important;
             padding: 0;
             overflow-x: hidden;
         }
-        .navbar {
-            background-color: #F0F0F0; /* Light grey */
-            /* position: fixed; */
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            border-bottom: 2px solid #CCCCCC;
-        }
-
-        .navbar .nav-link {
-            color: #0b71d9; /* Bold blue for navbar text */
-            font-weight: bold;
-        }
-
-        /* Logo Styling */
-        .navbar-brand {
-            font-size: 24px; /* Logo font size */
-            font-weight: bold; /* Make the logo text bold */
+        .container {
+            margin-top: 9rem !important;
         }
         .freelancer-card {
             border: 1px solid #e0e0e0;
@@ -68,84 +48,53 @@
         .category-list li a.active {
             font-weight: bold;
         }
+    
+    
+
+        
     </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <span class="logo-part1">Portdex</span><span class="logo-part2">AI</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/freelancers">Freelancers</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'user_profile' %}">Profile</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Sign Up</a></li>
-                    {% endif %}
-                </ul>
-            </div>
+{% endblock %}
+
+{% block content %}
+<div class="container m-5">
+    <div class="row">
+        <!-- Sidebar for Categories -->
+        <div class="col-md-3">
+            <h5>Categories</h5>
+            <ul class="category-list">
+                <li><a href="{% url 'freelancer_list' %}">All Categories</a></li>
+                {% for category in categories %}
+                    <li><a href="?category={{ category }}" class="{% if selected_category == category %} active {% endif %}">{{ category }}</a></li>
+                {% endfor %}
+            </ul>
         </div>
-    </nav>
 
-    <div class="container mt-5">
-        <div class="row">
-            <!-- Sidebar for Categories -->
-            <div class="col-md-3">
-                <h5>Categories</h5>
-                <ul class="category-list">
-                    <li><a href="{% url 'freelancer_list' %}">All Categories</a></li>
-                    {% for category in categories %}
-                        <li><a href="?category={{ category }}" class="{% if selected_category == category %} active {% endif %}">{{ category }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <!-- Main Content Area -->
-            <div class="col-md-9">
-                <div class="row">
-                    {% for freelancer in page_obj %}
-                    <div class="col-md-12">
-                        <div class="freelancer-card">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <img src="{{ freelancer.img }}" class="freelancer-img" alt="Profile Picture">
-                                </div>
-                                <div class="col-md-8">
-                                    <h5>{{ freelancer.profile }}</h5>
-                                    <p class="freelancer-category">{{ freelancer.category }}</p>
-                                    <p>{{ freelancer.about|truncatewords:50 }}</p>
-                                    <a href="#" class="btn btn-outline-success">View profile</a>
-                                </div>
-                                <div class="col-md-2">
-                                    <p><strong>{{ freelancer.hour_p_week }}</strong></p>
-                                    <p>{{ freelancer.location }}</p>
-                                </div>
+        <!-- Main Content Area -->
+        <div class="col-md-9">
+            <div class="row">
+                {% for freelancer in page_obj %}
+                <div class="col-md-12">
+                    <div class="freelancer-card">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="{{ freelancer.img }}" class="freelancer-img" alt="Profile Picture">
+                            </div>
+                            <div class="col-md-8">
+                                <h5>{{ freelancer.profile }}</h5>
+                                <p class="freelancer-category">{{ freelancer.category }}</p>
+                                <p>{{ freelancer.about|truncatewords:50 }}</p>
+                                <a href="#" class="btn btn-outline-success">View profile</a>
+                            </div>
+                            <div class="col-md-2">
+                                <p><strong>{{ freelancer.hour_p_week }}</strong></p>
+                                <p>{{ freelancer.location }}</p>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
-
-                
+                {% endfor %}
             </div>
         </div>
     </div>
-    <footer class="text-center mt-5 bg-light py-3"></footer>
-        <div class="container">
-            <p>&copy; 2024 portdex.ai. All rights reserved.</p>
-        </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</div>
+{% endblock %}
