@@ -49,6 +49,28 @@ def add_product(request):
 
 def main(request):
 	return render(request, 'main2.html')
+
+
+# from .models import HeroSection, AwardInfo, AboutSection, Service, Project, Product
+
+# def main(request):
+#     hero_section = HeroSection.objects.first()  
+#     awards = AwardInfo.objects.all()  
+#     about_section = AboutSection.objects.first()  
+#     services = Service.objects.all()  
+#     projects = Project.objects.all()  
+#     products = Product.objects.all()  # Fetch all products
+
+#     context = {
+#         'hero_section': hero_section,
+#         'awards': awards,
+#         'about_section': about_section,
+#         'services': services,
+#         'projects': projects,
+#         'products': products,  # Pass products to the template
+#     }
+#     return render(request, 'main3.html', context)
+    
 def about(request):
 	return render(request, 'about.html')
 def service(request):

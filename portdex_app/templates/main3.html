@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home | Portdex{% endblock %}
+
+{% block content %}
+<!--=====HERO AREA START=======-->
+<div class="hero1" style="background-image: url('{{ hero_section.background_image.url }}'); background-position: center; background-repeat: no-repeat; background-size: cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="main-heading">
+                    <span class="span" data-aos="zoom-in-left" data-aos-duration="700"><img src="{% static 'img/icons/span1.png' %}" alt=""> Portdex Ai</span>
+                    <h1 class="title tg-element-title">{{ hero_section.title }}</h1>
+                    <div class="space16"></div>
+                    <p>{{ hero_section.description }}</p>
+
+                    <div class="space30"></div>
+                    <div class="buttons">
+                        <a class="theme-btn1" href="{{ hero_section.button_link }}">{{ hero_section.button_text }} <span><i class="fa-solid fa-arrow-right"></i></span></a>
+                        <a class="play-btn" href="{{ hero_section.demo_video_link }}"><span><i class="fa-regular fa-play"></i></span> Watch Demo Video</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="hero1-all-images">
+                    <!-- Add images as needed -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--=====HERO AREA END=======-->
+
+<!--=====HERO BOTTOM AREA START=======-->
+<div class="">
+    <div class="container">
+        <div class="row hero-bottom-area">
+            {% for award in awards %}
+            <div class="col-lg-3">
+                <div class="single-box">
+                    <div class="icon">
+                        <img src="{% static 'img/icons/hero-bottom-icon1.png' %}" alt="">
+                    </div>
+                    <div class="heading">
+                        <h5>{{ award.title }}</h5>
+                        <p>{{ award.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!--=====HERO BOTTOM AREA END=======-->
+
+<!--=====ABOUT AREA START=======-->
+<div class="about1 sp">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <!-- Existing about image code -->
+            </div>
+
+            <div class="col-lg-6">
+                <div class="heading1">
+                    <span class="span" data-aos="zoom-in-left" data-aos-duration="700"><img src="{% static 'img/icons/span1.png' %}" alt=""> About Our Company</span>
+                    <h2 class="title tg-element-title">{{ about_section.title }}</h2>
+                    <div class="space16"></div>
+                    <p data-aos="fade-left" data-aos-duration="800">{{ about_section.description }}</p>
+
+                    <!-- Unique selling points -->
+                    <ul class="list" data-aos="fade-left" data-aos-duration="1100">
+                        {% for point in about_section.unique_selling_points.splitlines %}
+                        <li><span><i class="fa-solid fa-check"></i></span> {{ point }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <!-- Button to discover more -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--=====ABOUT AREA END=======-->
+
+<!--=====SERVICE AREA START=======-->
+<div class="service sp">
+    <!-- Existing service code -->
+    {% for service in services %}
+    <!-- Render each service dynamically -->
+    {% endfor %}
+</div>
+<!--=====SERVICE AREA END=======-->
+
+<!--=====PROJECT AREA START=======-->
+<div class="project sp">
+    <!-- Existing project code -->
+    {% for project in projects %}
+    <!-- Render each project dynamically -->
+    {% endfor %}
+</div>
+<!--=====PROJECT AREA END=======-->
+{% endblock %}

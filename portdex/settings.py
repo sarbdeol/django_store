@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-b*=30snd^czub@plp%31k0810=_&41z3t@u6l(k*$pi019$uv*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -115,13 +115,12 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/ubuntu/portdex/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # This is where collectstatic will collect files
+
+# Directories containing static files
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Admin files or others in the 'static' directory
+    os.path.join(BASE_DIR, 'static'),  # Point to your actual static folder
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
