@@ -141,72 +141,15 @@
                          </ul>
                        </li>
      
-                      <li class="dropdown-menu-parrent"><a href="#" class="main1">Pages <i class="fa-solid fa-angle-down"></i></a>
-                       <div class="mega-menu-all">
-                        <div class="row">
-                          <div class="col-md-3">
-                            <div class="mega-menu-single dis1">
-                              <h3>Our Services</h3>
-                              <ul>
-                                <li><a href="/">Service</a></li>
-                                <li><a href="/">Crypto Education</a></li>
-                                <li><a href="/">Market Analysis</a></li>
-                                <li><a href="/">Investment Strategies</a></li>
-                              </ul>
-                            </div>
-                          </div>
-     
-                          <div class="col-md-3">
-                            <div class="mega-menu-single">
-                              <h3>News Letter</h3>
-                              <ul>
-                                <li><a href="blog.html">Blog</a></li>
-                                <!-- <li><a href="blog-sidebar.html">Blog Sidebar</a></li>
-                                <li><a href="blog-details-left.html">Details Left</a></li>
-                                <li><a href="blog-details-right.html">Details Right</a></li>
-                                <li><a href="blog-details.html">Single Details</a></li> -->
-                              </ul>
-                            </div>
-                          </div>
-     
-                          <div class="col-md-3">
-                            <div class="mega-menu-single">
-                              <h3>Page's</h3>
-                              <ul>
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Contact Us</a></li>
-                                <li><a href="#">Our Team</a></li>
-                                <!-- <li><a href="testimonial.html">Testimonial</a></li> -->
-                                <!-- <li><a href="error.html">ERROR 404</a></li> -->
-     
-                              </ul>
-                            </div>
-                          </div>
-     
-                          <div class="col-md-3">
-                            <div class="mega-menu-single">
-                              <h3>Our Project's</h3>
-                              <ul>
-                                <li><a href="#">Project</a></li>
-                                <!-- <li><a href="project-details-left.html">Details Left</a></li>
-                                <li><a href="project-details-right.html">Details Right</a></li>
-                                <li><a href="project-details.html">Single Details</a></li> -->
-                              </ul>
-                            </div>
-                          </div>
-     
-                        </div>
-                       </div>
-                     </li>
-     
                     
+                       <li class="dropdown-menu-parrent"><a href="/ai-repository">Ai Repositories <i class="fa-solid fa-angle-down"></i></a>
                      <li class="dropdown-menu-parrent"><a href="/freelancers">Freelancers <i class="fa-solid fa-angle-down"></i></a>
                       <li class="dropdown-menu-parrent"><a href="/products">Products <i class="fa-solid fa-angle-down"></i></a>
                        <ul>
      
                        </ul>
                      </li>
-                         
+                    
                      </ul>
      
                     </div>
@@ -224,7 +167,7 @@
                            </div>
                          </div>
                          <div class="button">
-                           <a class="theme-btn1" href="contact.html">Get A Quote <span><i class="fa-solid fa-arrow-right"></i></span></a>
+                           <a class="theme-btn1" href="#login" data-bs-toggle="collapse" aria-expanded="false" aria-controls="login">Login <span><i class="fa-solid fa-arrow-right"></i></span></a>
                          </div>
                     </div>
      
@@ -264,6 +207,10 @@
               
           </li>
           <li><a href="/about">About Us</a></li>
+          
+    
+        <!-- Sidebar (Initially Hidden) -->
+       
           <li class="has-dropdown"><a href="#">Service</a> 
             <ul class="sub-menu">
                 <li><a href="service.html">Service</a></li>
@@ -275,7 +222,7 @@
 
         <li class="has-dropdown"><a href="#">Pages</a> 
           <ul class="sub-menu">
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="/contact">Contact</a></li>
             <li><a href="team.html">Team</a></li>
             <li><a href="testimonial.html">Testimonial</a></li>
             <li><a href="error.html">404</a></li>
@@ -361,7 +308,28 @@
         </div>
       </div>
     <!-- Main Content Block -->
+     
     <br>
+    <div class="sidebar collapse" id="login" style="margin-top: 5rem !important;">
+      <div class="card mb-4" style="background-color: #FFFFFF; border: none;">
+          <div class="card-body">
+              {% if user.is_authenticated %}
+                  <h5 class="card-title">Welcome, {{ user.username }}</h5>
+                  <p class="card-text">You have access to all features of our service.</p>
+                  <a href="{% url 'logout' %}" class="btn btn-secondary">Log out</a>
+              {% else %}
+                  <h5 class="card-title">Access Features</h5>
+                  <p class="card-text">Log in or sign up to access all features of our service.</p>
+                  <div class="d-grid gap-2">
+                      <a href="{% url 'register' %}" class="btn btn-primary">Sign up</a>
+                      <a href="{% url 'login' %}" class="btn btn-secondary">Log in</a>
+                  </div>
+              {% endif %}
+          </div>
+      </div>
+
+     
+  </div>
     {% block content %}
     <!-- Page-specific content goes here -->
     {% endblock %}

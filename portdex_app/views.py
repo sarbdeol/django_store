@@ -10,6 +10,7 @@ import requests
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
 from .forms import ProductForm
+import json
 @login_required
 def user_profile(request):
     # Get the products created by the logged-in user
@@ -49,6 +50,8 @@ def add_product(request):
 
 def main(request):
 	return render(request, 'main2.html')
+def contact(request):
+	return render(request, 'contact.html')
 
 
 # from .models import HeroSection, AwardInfo, AboutSection, Service, Project, Product
@@ -239,3 +242,34 @@ def register(request):
 def user_logout(request):
 	logout(request)
 	return redirect('login')
+
+
+JSON_URL = 'https://walluk.s3.amazonaws.com/gitrepos/finance_repo.json'
+
+def finance_repos_view(request):
+    # Fetch JSON data from the API
+    finance_json_url = 'https://walluk.s3.amazonaws.com/gitrepos/finance_repo.json'
+    education_json_url = 'https://walluk.s3.amazonaws.com/gitrepos/education_ai_repo.json'
+
+    # Determine category from request
+    selected_category = request.GET.get('category', 'finance')  # Default is 'finance'
+
+    # Fetch the appropriate JSON data based on the selected category
+    if selected_category == 'education':
+        response = requests.get(education_json_url)
+    else:
+        response = requests.get(finance_json_url)
+
+    repos_data = json.loads(response.text)
+
+    # Optionally, filter by programming languages/types (if requested)
+    selected_type = request.GET.get('type', None)
+    if selected_type:
+        repos_data = [repo for repo in repos_data if selected_type.lower() in [tag.lower() for tag in repo.get('topics', [])]]
+
+    context = {
+        'repos': repos_data,
+        'selected_type': selected_type,
+        'selected_category': selected_category
+    }
+    return render(request, 'finance_repos.html', context)

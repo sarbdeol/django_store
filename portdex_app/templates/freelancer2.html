@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Freelancers{% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        background-color: #F0F0F0;
+        font-family: 'Roboto', sans-serif;
+        margin-top: 5rem !important;
+        padding: 0;
+        overflow-x: hidden;
+    }
+    .container {
+        margin-top: 9rem !important;
+    }
+    .freelancer-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: white;
+        margin-bottom: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .freelancer-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .freelancer-info {
+        flex-grow: 1;
+        margin-left: 15px;
+    }
+    .freelancer-profile h5 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .freelancer-rate {
+        font-weight: bold;
+        color: #333;
+    }
+    .freelancer-meta {
+        font-size: 14px;
+        color: #888;
+    }
+    .skill-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 10px;
+    }
+    .skill-badges span {
+        background-color: #f1f1f1;
+        border-radius: 15px;
+        padding: 5px 10px;
+        font-size: 12px;
+        color: #444;
+    }
+    .btn-view-profile {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+    .view-profile-btn {
+        border: 1px solid #28a745;
+        color: #28a745;
+        padding: 6px 12px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+    .view-profile-btn:hover {
+        background-color: #28a745;
+        color: white;
+    }
+    .pagination {
+        justify-content: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Sidebar for Categories -->
+        <div class="col-md-3">
+            <h5>Categories</h5>
+            <ul class="category-list">
+                <li><a href="{% url 'freelancer_list' %}">All Categories</a></li>
+                {% for category in categories %}
+                    <li><a href="?category={{ category }}" class="{% if selected_category == category %} active {% endif %}">{{ category }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="col-md-9">
+            <div class="row">
+                {% for freelancer in page_obj %}
+                <div class="col-md-12">
+                    <div class="freelancer-card">
+                        <!-- Freelancer Image -->
+                        <img src="{{ freelancer.img }}" class="freelancer-img" alt="Profile Picture">
+
+                        <!-- Freelancer Information -->
+                        <div class="freelancer-info">
+                            <div class="freelancer-profile">
+                                <h5>{{ freelancer.profile }}</h5>
+                                <p class="freelancer-category">{{ freelancer.category }}</p>
+                                <p>{{ freelancer.about|truncatewords:50 }}</p>
+                                <span class="freelancer-rate">{{ freelancer.hour_p_week }}</span> |
+                                <span class="freelancer-meta">{{ freelancer.location }}</span>
+                            </div>
+                        </div>
+
+                        <!-- View Profile Button -->
+                        <a href="#" class="view-profile-btn">View profile</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

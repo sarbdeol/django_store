@@ -48,7 +48,11 @@
         .category-list li a.active {
             font-weight: bold;
         }
-    
+        .freelancer-card:hover {
+            background-color: #f9f9f9; /* Change background color on hover */
+            transform: translateY(-5px); /* Move the card slightly upwards */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Add a shadow effect */
+        }
     
 
         
@@ -60,41 +64,47 @@
     <div class="row">
         <!-- Sidebar for Categories -->
         <div class="col-md-3">
-            <h5>Categories</h5>
-            <ul class="category-list">
-                <li><a href="{% url 'freelancer_list' %}">All Categories</a></li>
+            <h5 style="font-weight: bold;">Category</h5>
+            <br>
+            
+            <ul class="category-list" style="list-style-type: none; padding-left: 15px;">
+                <li><a href="{% url 'freelancer_list' %}" style="font-weight: normal; display: block; margin-left: 20px;">All Categories</a></li>
                 {% for category in categories %}
-                    <li><a href="?category={{ category }}" class="{% if selected_category == category %} active {% endif %}">{{ category }}</a></li>
+                    <li><a href="?category={{ category }}" class="{% if selected_category == category %} active {% endif %}" style="font-weight: normal; display: block; margin-left: 20px;">{{ category }}</a></li>
                 {% endfor %}
             </ul>
         </div>
+        
 
         <!-- Main Content Area -->
         <div class="col-md-9">
             <div class="row">
                 {% for freelancer in page_obj %}
                 <div class="col-md-12">
-                    <div class="freelancer-card">
+                    <div class="freelancer-card" style="transition: transform 0.3s ease, background-color 0.3s ease; background-color: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 15px;">
                         <div class="row">
                             <div class="col-md-2">
                                 <img src="{{ freelancer.img }}" class="freelancer-img" alt="Profile Picture">
                             </div>
                             <div class="col-md-8">
                                 <h5>{{ freelancer.profile }}</h5>
-                                <p class="freelancer-category">{{ freelancer.category }}</p>
+                                <p class="freelancer-category" style="color: #888; font-weight: bold;">{{ freelancer.category }}</p>
                                 <p>{{ freelancer.about|truncatewords:50 }}</p>
-                                <a href="#" class="btn btn-outline-success">View profile</a>
                             </div>
                             <div class="col-md-2">
                                 <p><strong>{{ freelancer.hour_p_week }}</strong></p>
                                 <p>{{ freelancer.location }}</p>
+                                <br>
+                                <a href="#" class="btn btn-outline-success" style="font-size: 12px; padding: 5px 10px;">View profile</a>
                             </div>
                         </div>
                     </div>
+                    <br>
                 </div>
                 {% endfor %}
             </div>
         </div>
+        
     </div>
 </div>
 {% endblock %}

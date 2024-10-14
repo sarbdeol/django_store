@@ -34,6 +34,7 @@
             left: 0;
             width: 250px; /* Fixed width */
             overflow-y: auto;
+            margin-top: 5rem !important;
         }
 
         @media (max-width: 768px) {
@@ -104,6 +105,7 @@
             background-color: #FFFFFF; /* Light white background for cards */
             margin-bottom: 20px; /* Margin between cards */
             border-radius: 8px; /* Rounded corners */
+            
         }
 
         .card-title {
@@ -147,8 +149,8 @@
             transition: transform 0.2s;
         }
 
-        .small-image {
-            width: 100%; /* Set the desired width for the image */
+        .card-img-top {
+            width: 100% !important; /* Set the desired width for the image */
             height: 300px !important; /* Maintain aspect ratio */
         }
     </style>
@@ -157,64 +159,39 @@
  {% block content %}
     <!-- Sidebar -->
     <!-- Sidebar for larger devices (hidden on mobile) -->
-    <div class="sidebar d-none d-md-block">
-        <div class="card mb-4" style="background-color: #FFFFFF; border: none;">
-            <div class="card-body">
-                {% if user.is_authenticated %}
-                    <h5 class="card-title">Welcome, {{ user.username }}</h5>
-                    <p class="card-text">You have access to all features of our service.</p>
-                    <a href="{% url 'logout' %}" class="btn btn-secondary">Log out</a>
-                {% else %}
-                    <h5 class="card-title">Access Features</h5>
-                    <p class="card-text">Log in or sign up to access all features of our service.</p>
-                    <div class="d-grid gap-2">
-                        <!-- Sign Up button -->
-                        <a href="{% url 'register' %}" class="btn btn-primary">Sign up</a>
-                        <!-- Log In button -->
-                        <a href="{% url 'login' %}" class="btn btn-secondary">Log in</a>
-                    </div>
-                {% endif %}
+        <!-- Expand Button in the Corner -->
+    
+
+    <h3 class="mt-4" style="margin-top: 5rem !important;">Filters</h3>
+    <div class="container">
+        <form method="get" class="row g-3 align-items-center mb-4">
+            <!-- Categories Dropdown -->
+            <div class="col-md-6">
+                <label for="categoryDropdown" class="form-label">Category</label>
+                <select name="category" id="categoryDropdown" class="form-select" onchange="this.form.submit()">
+                    <option value="">Select Category</option>
+                    {% for category in categories %}
+                        <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>
+                            {{ category }}
+                        </option>
+                    {% endfor %}
+                </select>
             </div>
-        </div>
 
-        <h3 class="mt-4">Filters</h3>
-        <div class="container">
-            <!-- Form for category and subcategory selection -->
-            <form method="get" class="row g-3 align-items-center mb-4">
-                
-                <!-- Categories Dropdown -->
-                <div class="col-md-6">
-                    <label for="categoryDropdown" class="form-label">Category</label>
-                    <select name="category" id="categoryDropdown" class="form-select" onchange="this.form.submit()">
-                        <option value="">Select Category</option>
-                        {% for category in categories %}
-                            <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>
-                                {{ category }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                
-                <!-- Subcategories Dropdown -->
-                <div class="col-md-6">
-                    <label for="subcategoryDropdown" class="form-label">Subcategory</label>
-                    <select name="subcategory" id="subcategoryDropdown" class="form-select" onchange="this.form.submit()">
-                        <option value="">Select Subcategory</option>
-                        {% for subcategory in subcategories %}
-                            <option value="{{ subcategory }}" {% if selected_subcategory == subcategory %}selected{% endif %}>
-                                {{ subcategory }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-            </form>
-        </div>
-
-
-       
+            <!-- Subcategories Dropdown -->
+            <div class="col-md-6">
+                <label for="subcategoryDropdown" class="form-label">Subcategory</label>
+                <select name="subcategory" id="subcategoryDropdown" class="form-select" onchange="this.form.submit()">
+                    <option value="">Select Subcategory</option>
+                    {% for subcategory in subcategories %}
+                        <option value="{{ subcategory }}" {% if selected_subcategory == subcategory %}selected{% endif %}>
+                            {{ subcategory }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
     </div>
-
     <!-- Display login/signup and categories after navbar on mobile devices -->
     <div class="d-block d-md-none">
         <!-- Login/Sign Up section for mobile -->
@@ -271,26 +248,25 @@
             <h3>Products</h3>
             <div class="row">
                 {% for product in products %}
-                    <div class="col-md-4 product-card" data-category="{{ product.category }}">
-                        <div class="card">
-                            <div class="card">
-                                {% if product.first_image %}
-                                    <img src="{{ product.first_image }}" alt="{{ product.title }} logo" class="card-img-top logo-image small-image">
-                                {% endif %}
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ product.title }}</h5>
-                                    <p><strong>Author:</strong> {{ product.author }}</p>
-                                    <p><strong>Price:</strong> {{ product.price }}</p>
-                                    <p><strong>Category:</strong> {{ product.category }}</p>
-                                    <p><strong>Subcategory:</strong> {{ product.sub_category }}</p>
-                                    <p><strong>Tags:</strong> {{ product.tags|join:", " }}</p>
-                                    <a href="{% url 'product_page' product.slug %}" class="btn btn-primary">View Product</a>
-                                </div>
+                    {% if product.first_image %}
+                    <div class="col-md-3 product-card mb-4" data-category="{{ product.category }}" style="padding: 15px;">
+                        <div class="card h-100" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 10px; overflow: hidden;">
+                            <img src="{{ product.first_image }}" alt="{{ product.title }} logo" class="card-img-top logo-image" style="height: 250px; object-fit: cover; width: 100%;">
+                            <div class="card-body" style="padding: 15px;">
+                                <h5 class="card-title" style="font-size: 1.25rem; margin-bottom: 10px;">{{ product.title }}</h5>
+                                <p style="margin-bottom: 5px;"><strong>Author:</strong> {{ product.author }}</p>
+                                <p style="margin-bottom: 5px;"><strong>Price:</strong> {{ product.price }}</p>
+                                <p style="margin-bottom: 5px;"><strong>Category:</strong> {{ product.category }}</p>
+                                <p style="margin-bottom: 5px;"><strong>Subcategory:</strong> {{ product.sub_category }}</p>
+                                <p style="margin-bottom: 10px;"><strong>Tags:</strong> {{ product.tags|join:", " }}</p>
+                                <a href="{% url 'product_page' product.slug %}" class="btn btn-primary" style="width: auto;">View Product</a>
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                 {% endfor %}
             </div>
+            
         </div>
     
         <nav aria-label="Page navigation">
