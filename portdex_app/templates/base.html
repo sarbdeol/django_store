@@ -8,442 +8,200 @@
 
     <!--=====FAB ICON=======-->
     <link rel="shortcut icon" href="{% static 'img/logo/titile.png' %}" type="image/x-icon">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!--=====CSS=======-->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
-    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
-    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}">
-    <link rel="stylesheet" href="{% static 'css/slick-slider.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
-    <link rel="stylesheet" href="{% static 'css/mobile-menu.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"> <!-- Custom CSS -->
 
-    
     {% block extra_css %}{% endblock %}
-    <script src="{% static 'js/jquery-3-7-1.min.js' %}"></script>
+    <style>
+        /* Base styles */
+        body {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #sidebar {
+            background-color: #f8f9fa;
+            width: 250px;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            border-right: 1px solid #dee2e6;
+            z-index: 1000; /* Ensure the sidebar is on top */
+            transition: transform 0.3s ease;
+        }
+
+        #sidebar .logo {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #sidebar ul li {
+            margin: 15px 0;
+        }
+
+        #sidebar ul li a {
+            color: #333;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        #sidebar ul li a i {
+            margin-right: 10px;
+        }
+
+        #main-content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .social-icon a {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        #hamburger {
+            display: none;
+        }
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+                z-index: 1000; /* Ensure sidebar is above content */
+            }
+
+            #sidebar.open {
+                transform: translateX(0);
+            }
+
+            #main-content {
+                margin-left: 0;
+            }
+
+            #hamburger {
+                display: block;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1100; /* Ensure the hamburger is always on top */
+                font-size: 24px;
+                background: none;
+                border: none;
+                color: #333;
+                cursor: pointer;
+            }
+        }
+
+        /* Overlay for mobile when sidebar is open */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 900; /* Behind sidebar */
+            display: none;
+        }
+
+        #overlay.active {
+            display: block;
+        }
+
+        /* Hide hamburger menu on larger screens */
+        
+    </style>
 </head>
-<body class="body tg-heading-subheading animation-style3">
-    <div class="paginacontainer"> 
+<body>
 
-        <div class="progress-wrap">
-          <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
-          </svg>
-        </div>
-      
-      </div> 
-    <section>
-        <div id="preloader">
-            <div id="ctn-preloader" class="ctn-preloader ctn-preloader1">
-            <div class="animation-preloader">
-                <div class="spinner"></div>
-                <div class="txt-loading">
-                    <span data-text-preloader="P" class="letters-loading">
-                    P
-                    </span>
-                    <span data-text-preloader="O" class="letters-loading">
-                    O
-                    </span>
-                    <span data-text-preloader="R" class="letters-loading">
-                    R
-                    </span>
-                    <span data-text-preloader="T" class="letters-loading">
-                    T
-                    </span>
-                    <span data-text-preloader="D" class="letters-loading">
-                    D
-                    </span>
-                    <span data-text-preloader="E" class="letters-loading">
-                    E
-                    </span>
-                    <span data-text-preloader="X" class="letters-loading">
-                    X
-                    </span>
-                </div>
-            </div>	
-            <div class="loader-section-left loader-section section-left"></div>
-            <div class="loader-section-right loader-section section-right"></div>
-            </div>
-        </div>
-      </section>
-    <!--===== HEADER START =======-->
-    <header>
-        <div class="header-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="pera">
-                            <p><img src="{% static 'img/icons/header-top-span.png' %}" alt=""> A Professional Technology & It Solution Company Based On World</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Hamburger menu button for mobile -->
+    <button id="hamburger"><i class="fa-solid fa-bars"></i></button>
 
-        <!-- Add your main navigation here -->
-        <div class="header-area header-area1 header-area-all d-none d-lg-block" id="header">
-            <div class="container">
-              <div class="row">
-                <div class="col-12">
-                  <div class="header-elements">
-                    <div class="site-logo">
-                      <a href="index.html">
-                       <img src="{% static '/img/icons/span1.png'%}" alt="">Portdex AI
-                       
-                      </a>
-                    </div>
-     
-     
-                    <div class="main-menu-ex main-menu-ex1">
-                     <ul>
-                       
-                       <li><a href="/">Home <i class="fa-solid fa-angle-down"></i></a>
-                         <!-- <div class="tp-submenu">
-                           <div class="row">
-                              <div class="col-lg-12">
-                               <div class="all-images-menu">
-                                 <div class="homemenu-thumb">
-                                   <div class="img1">
-                                   <img src="{% static '/img/demo/demo1.png'%}" alt="">
-                                   </div>
-                                    <div class="homemenu-btn">
-                                     <a class="header-btn1" href="/products" target="_blank">Products <i class="fa-solid fa-arrow-right"></i></a>
-                                     <div class="space16"></div>
-                                     <a class="header-btn1" href="/freelancers" target="_blank">Freelancers<i class="fa-solid fa-arrow-right"></i></a>
-                                    </div>
-                                 </div>
-             
-     
-                           </div>
-                         </div>
-                        </div> -->
-                       </li>
-     
-                       <li class="dropdown-menu-parrent"><a href="/about">About <i class="fa-solid fa-angle-down"></i></a>
-                         <ul>
-                          <li><a href="/about">About - Us</a></li>
-             
-                         </ul>
-                       </li>
-     
-                       <li class="dropdown-menu-parrent"><a href="/service">Service <i class="fa-solid fa-angle-down"></i></a>
-                         <ul>
-                          <li><a href="service.html">Service <i class="fa-solid fa-angle-right"></i></a>
-                            
-                            </li>
-       
-                       
-       
-                         </ul>
-                       </li>
-     
-                    
-                       <li class="dropdown-menu-parrent"><a href="/ai-repository">Ai Repositories <i class="fa-solid fa-angle-down"></i></a>
-                     <li class="dropdown-menu-parrent"><a href="/freelancers">Freelancers <i class="fa-solid fa-angle-down"></i></a>
-                      <li class="dropdown-menu-parrent"><a href="/products">Products <i class="fa-solid fa-angle-down"></i></a>
-                       <ul>
-     
-                       </ul>
-                     </li>
-                    
-                     </ul>
-     
-                    </div>
-     
-     
-     
-                    <div class="header1-buttons">
-                         <div class="contact-btn">
-                           <div class="icon">
-                             <img src="{% static '/img/icons/header1-icon.png'%}" alt="">
-                           </div>
-                           <div class="headding">
-                             <p>Make a Call</p>
-                             <a href="tel:124(555)6565">124 (555) 6565</a>
-                           </div>
-                         </div>
-                         <div class="button">
-                           <a class="theme-btn1" href="#login" data-bs-toggle="collapse" aria-expanded="false" aria-controls="login">Login <span><i class="fa-solid fa-arrow-right"></i></span></a>
-                         </div>
-                    </div>
-     
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-    </header>
-    <!--===== HEADER END =======-->
-    <div class="mobile-header d-block d-lg-none ">
-        <div class="container-fluid">
-          <div class="col-12">
-            <div class="mobile-header-elements">
-              <div class="mobile-logo">
-                <a href="index1.html">Portdex</a>
-              </div>
-              <div class="mobile-nav-icon">
-                <i class="fa-duotone fa-bars-staggered"></i>
-              </div>
-            </div>
-          </div>
+    <!-- Left Sidebar -->
+    <nav id="sidebar">
+        <div class="logo">
+            Portdex AI
         </div>
-      </div>
-      
-      <div class="mobile-sidebar d-block d-lg-none">
-        <div class="logo-m">
-          <a href="index.html">Portdex</a>
-        </div>
-        <div class="menu-close">
-          <i class="fa-solid fa-xmark"></i>
-        </div>
-        <div class="mobile-nav">
-    
-          <ul>
-            <li class="has-dropdown"><a href="#">Home </a> 
-              
-          </li>
-          <li><a href="/about">About Us</a></li>
-          
-    
-        <!-- Sidebar (Initially Hidden) -->
-       
-          <li class="has-dropdown"><a href="#">Service</a> 
-            <ul class="sub-menu">
-                <li><a href="service.html">Service</a></li>
-                <li><a href="service-details-left.html">Service Left</a></li>
-                <li><a href="service-details-right.html">Service Right</a></li>
-                <li><a href="service-details.html">Service Details</a></li>
-            </ul>
-        </li>
+        <ul>
+            <li><a href="/"><i class="fa-solid fa-home"></i> Home</a></li>
+            <li><a href="/about"><i class="fa-solid fa-info-circle"></i> About Us</a></li>
+            <li><a href="/service"><i class="fa-solid fa-briefcase"></i> Services</a></li>
+            <li><a href="/ai-repository"><i class="fa-solid fa-brain"></i> Ai Repositories</a></li>
+            <li><a href="/freelancers"><i class="fa-solid fa-user-friends"></i> Freelancers</a></li>
+            <li><a href="/products"><i class="fa-solid fa-box"></i> Products</a></li>
+        </ul>
 
-        <li class="has-dropdown"><a href="#">Pages</a> 
-          <ul class="sub-menu">
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="team.html">Team</a></li>
-            <li><a href="testimonial.html">Testimonial</a></li>
-            <li><a href="error.html">404</a></li>
-          </ul>
-      </li>
-  
-            <li class="has-dropdown"><a href="#">Blog</a> 
-              <ul class="sub-menu">
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="blog-sidebar.html">Blog Sidebar</a></li>
-                      <li><a href="blog-details-left.html">Details Left</a></li>
-                      <li><a href="blog-details-right.html">Details Right</a></li>
-                      <li><a href="blog-details.html">Blog Details</a></li>
-              </ul>
-          </li>
-
-          <li class="has-dropdown"><a href="#">Project</a> 
-            <ul class="sub-menu">
-              <li><a href="project.html">Project</a></li>
-              <li><a href="project-details-left.html">Project Left</a></li>
-              <li><a href="project-details-right.html">Project Right</a></li>
-              <li><a href="project-details.html">Project Details</a></li>
-            </ul>
-        </li>
-  
-          </ul>
-          
-          <div class="mobile-button">
-            <a class="menu-btn2" href="service.html">Learn More <span><i class="fa-solid fa-arrow-right"></i></span></a>
-          </div>
-
-          <div class="single-footer-items">
+        <div class="footer">
             <h3>Contact Us</h3>
-
-            <div class="contact-box">
-              <div class="icon">
-                <img src="{% static '/img/icons/footer1-icon1.png'%}" alt="">
-              </div>
-              <div class="pera">
-                <a href="tel:0500222333">0500 222 333</a>
-              </div>
-            </div>
-
-            <div class="contact-box">
-              <div class="icon">
-                <img src="{% static '/img/icons/footer1-icon2.png'%}" alt="">
-              </div>
-              <div class="pera">
-                <a href="tel:0356588547">03 5658 8547</a>
-              </div>
-            </div>
-
-            <div class="contact-box">
-              <div class="icon">
-                <img src="{% static '/img/icons/footer1-icon3.png'%}" alt="">
-              </div>
-              <div class="pera">
-                <a href="mailto:admin@portdex.org">admin@portdex.org</a>
-              </div>
-            </div>
-
-            <div class="contact-box">
-              <div class="icon">
-                <img src="{% static '/img/icons/footer1-icon4.png'%}" alt="">
-              </div>
-              <div class="pera">
-                <a href="mailto:admin@portdex.org">www.portdex.org</a>
-              </div>
-            </div>
-
-       </div>
-
-          <div class="contact-infos">
-            <h3>Our Location</h3>
-            <ul class="social-icon">
-              <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
-              <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
-              <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
-              <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-         </ul>
-          </div>
-
+            <p><i class="fa-solid fa-phone"></i> 0500 222 333</p>
+            <p><i class="fa-solid fa-envelope"></i> admin@portdex.org</p>
+            <p><i class="fa-solid fa-location-dot"></i> www.portdex.org</p>
+           
         </div>
-      </div>
-    <!-- Main Content Block -->
-     
-    <br>
-    <div class="sidebar collapse" id="login" style="margin-top: 5rem !important;">
-      <div class="card mb-4" style="background-color: #FFFFFF; border: none;">
-          <div class="card-body">
-              {% if user.is_authenticated %}
-                  <h5 class="card-title">Welcome, {{ user.username }}</h5>
-                  <p class="card-text">You have access to all features of our service.</p>
-                  <a href="{% url 'logout' %}" class="btn btn-secondary">Log out</a>
-              {% else %}
-                  <h5 class="card-title">Access Features</h5>
-                  <p class="card-text">Log in or sign up to access all features of our service.</p>
-                  <div class="d-grid gap-2">
-                      <a href="{% url 'register' %}" class="btn btn-primary">Sign up</a>
-                      <a href="{% url 'login' %}" class="btn btn-secondary">Log in</a>
-                  </div>
-              {% endif %}
-          </div>
-      </div>
+    </nav>
 
-     
-  </div>
-    {% block content %}
-    <!-- Page-specific content goes here -->
-    {% endblock %}
-    
+    <!-- Main Content Area -->
+    <div id="main-content">
+        {% block content %}
+        <!-- Page-specific content goes here -->
+        {% endblock %}
+    </div>
 
-    <!--===== FOOTER AREA START =======-->
-    <footer>
-        <div class="footer1 _relative">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-12">
-                        <div class="single-footer-items footer-logo-area">
-                            <div class="footer-logo">
-                                <a href="">Portdex AI</a>
-                            </div>
-                            <p>At Portdex IT Solutions, we're dedicated to delivering innovative technology solutions tailored to meet the unique needs of businesses like yours.</p>
-                            <ul class="social-icon">
-                                <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
-                                <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
-                                <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-lg col-md-6 col-12">
-                        <div class="single-footer-items">
-                            <h3>Service We Offer</h3>
-                            <ul class="menu-list">
-                                <li><a href="#">Cloud Computing Solution</a></li>
-                                <li><a href="#">Cybersecurity & Compliance</a></li>
-                                <li><a href="#">Software Development</a></li>
-                                <li><a href="#">It Consulting & Support</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-lg col-md-6 col-12">
-                        <div class="single-footer-items">
-                            <h3>Useful Links</h3>
-                            <ul class="menu-list">
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Our Services</a></li>
-                                <li><a href="#">Blog & News</a></li>
-                                <li><a href="#">Brand assets</a></li>
-                                <li><a href="#">Contact Us</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 col-12">
-                        <div class="single-footer-items">
-                            <h3>Contact Us</h3>
-                            <div class="contact-box">
-                                <div class="icon">
-                                    <img src="{% static 'img/icons/footer1-icon1.png' %}" alt="">
-                                </div>
-                                <a href="tel:0500222333">0500 222 333</a>
-                            </div>
-                            <div class="contact-box">
-                                <div class="icon">
-                                    <img src="{% static 'img/icons/footer1-icon2.png' %}" alt="">
-                                </div>
-                                <a href="tel:0356588547">03 5658 8547</a>
-                            </div>
-                            <div class="contact-box">
-                                <div class="icon">
-                                    <img src="{% static 'img/icons/footer1-icon3.png' %}" alt="">
-                                </div>
-                                <a href="mailto:admin@Portdex.org">admin@Portdex.org</a>
-                            </div>
-                            <div class="contact-box">
-                                <div class="icon">
-                                    <img src="{% static 'img/icons/footer1-icon4.png' %}" alt="">
-                                </div>
-                                <a href="mailto:admin@Portdex.org">www.Portdex.org</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="copyright-area">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-md-5">
-                            <div class="coppyright">
-                                <p>Copyright @2024 Portdex. All Rights Reserved</p>
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="coppyright right-area">
-                                <a href="#">Terms & Conditions</a>
-                                <a href="#">Privacy Policy</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--===== FOOTER AREA END =======-->
+    <!-- Overlay for mobile when sidebar is open -->
+    <div id="overlay"></div>
 
     <!--=====JQUERY=======-->
     <script src="{% static 'js/jquery-3-7-1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/aos.js' %}"></script>
-    <script src="{% static 'js/fontawesome.js' %}"></script>
-    <script src="{% static 'js/jquery.magnific-popup.js' %}"></script>
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/slick-slider.js' %}"></script>
-    <script src="{% static 'js/gsap.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+
+    <script>
+        // Toggle sidebar visibility on mobile when hamburger is clicked
+        const sidebar = document.getElementById('sidebar');
+        const hamburger = document.getElementById('hamburger');
+        const overlay = document.getElementById('overlay');
+
+        // Function to toggle sidebar
+        function toggleSidebar() {
+            const isOpen = sidebar.classList.contains('open');
+            if (isOpen) {
+                // Close sidebar
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            } else {
+                // Open sidebar
+                sidebar.classList.add('open');
+                overlay.classList.add('active');
+            }
+        }
+
+        // Event listener for hamburger
+        hamburger.addEventListener('click', toggleSidebar);
+
+        // Close sidebar when overlay is clicked
+        overlay.addEventListener('click', function () {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+    </script>
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>
